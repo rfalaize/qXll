@@ -1,5 +1,5 @@
-<DnaLibrary Name="qXL Add-In" RuntimeVersion="v4.0">
-  <ExternalLibrary Path="qXL.dll" LoadFromBytes="true" Pack="true" />
+<DnaLibrary Name="qXll Add-In" RuntimeVersion="v4.0">
+  <ExternalLibrary Path="qXll.dll" LoadFromBytes="true" Pack="true" ExplicitExports="true"/>
   
   <!-- 
        The RuntimeVersion attribute above allows two settings:

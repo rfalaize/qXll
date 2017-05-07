@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using qXL;
+using qXll;
 
-namespace qXL.Test
+namespace qXll.Test
 {
     // To do: open a q process on localhost:5001, before running the test set
     [TestClass]
@@ -20,11 +20,12 @@ namespace qXL.Test
         {
             InsertSampleTable();
             //With headers
-            object[,] o = qXLWrapper.qQuery("select from tUnitTest where i<100");
+            object[,] o;
+            o = qXLWrapper.qQuery("select from tUnitTest where i<100");
             Assert.AreEqual(o.GetLength(0), 101);
             Assert.AreEqual(o.GetLength(1), 4);
             //Without headers
-            object[,] o = qXLWrapper.qQuery("select from tUnitTest where i<100", true);
+            o = qXLWrapper.qQuery("select from tUnitTest where i<100", true);
             Assert.AreEqual(o.GetLength(0), 100);
             Assert.AreEqual(o.GetLength(1), 4);
         }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qXL", "qXL\qXL.csproj", "{90551450-CD9A-44AB-BD19-297A03D3F0B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qXll", "qXll\qXll.csproj", "{90551450-CD9A-44AB-BD19-297A03D3F0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qXL.Test", "qXL.Test\qXL.Test.csproj", "{348A80CE-2A39-4959-ADC3-DE18D950CC1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qXll.Test", "qXll.Test\qXll.Test.csproj", "{348A80CE-2A39-4959-ADC3-DE18D950CC1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

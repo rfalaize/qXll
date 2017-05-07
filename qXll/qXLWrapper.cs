@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using kx;
 using ExcelDna.Integration;
 
-namespace qXL
+namespace qXll
 {
     public static class qXLWrapper
     {

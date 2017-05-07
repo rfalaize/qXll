@@ -7,8 +7,8 @@
     <ProjectGuid>{90551450-CD9A-44AB-BD19-297A03D3F0B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>qXL</RootNamespace>
-    <AssemblyName>qXL</AssemblyName>
+    <RootNamespace>qXll</RootNamespace>
+    <AssemblyName>qXll</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,17 +49,17 @@
     <Compile Include="qXLWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="qXL-AddIn.dna">
+    <Content Include="qXll-AddIn.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna.xll" "$(TargetDir)qXL-AddIn.xll*" /C /Y
-rem xcopy "$(TargetDir)qXL-AddIn.dna*" "$(TargetDir)qXL-AddIn64.dna*" /C /Y
-rem xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)qXL-AddIn64.xll*" /C /Y
-rem "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)qXL-AddIn.dna" /Y
-rem "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)qXL-AddIn64.dna" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)qXll-AddIn.xll*" /C /Y
+xcopy "$(TargetDir)qXll-AddIn.dna*" "$(TargetDir)qXll-AddIn64.dna*" /C /Y
+xcopy "$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDna64.xll" "$(TargetDir)qXll-AddIn64.xll*" /C /Y
+"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)qXll-AddIn.dna" /Y
+"$(SolutionDir)\packages\ExcelDna.AddIn.0.33.9\tools\ExcelDnaPack.exe" "$(TargetDir)qXll-AddIn64.dna" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
