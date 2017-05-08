@@ -1,0 +1,96 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Option Explicit
+
+Private Sub Workbook_Open()
+    'Auto import modules
+    Me.ImportModules
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    'Auto save modules
+    Select Case MsgBox("Export and save current modules?", vbYesNoCancel, "Save")
+        Case vbYes:
+            Me.ExportModules
+        Case vbNo:
+        Case Else:
+            Cancel = True
+    End Select
+End Sub
+
+'Utils
+'##############################################################################
+'Export all modules in the current folder
+Public Sub ExportModules()
+    Dim cmpComponent As VBIDE.VBComponent
+    Dim mCount As Integer: mCount = 0
+    For Each cmpComponent In ThisWorkbook.VBProject.VBComponents
+        Dim bExport As Boolean: bExport = True
+        Dim fileName As String: fileName = cmpComponent.Name
+        Select Case cmpComponent.Type
+            Case vbext_ct_ClassModule
+                fileName = fileName & ".cls"
+            Case vbext_ct_MSForm
+                fileName = fileName & ".frm"
+            Case vbext_ct_StdModule
+                fileName = fileName & ".bas"
+            Case vbext_ct_Document
+                ' Worksheet objects. Don't export.
+                If cmpComponent.Name <> "ThisWorkbook" Then
+                    bExport = False
+                End If
+        End Select
+        If bExport Then
+            cmpComponent.Export ThisWorkbook.Path & "\" & fileName
+            mCount = mCount + 1
+        End If
+    Next cmpComponent
+    
+    MsgBox CStr(mCount) + " modules exported successully.", vbInformation, "Dynamic modules"
+End Sub
+
+'Import all modules from the current folder
+Public Sub ImportModules()
+    Dim objFSO As New Scripting.FileSystemObject
+    Dim objFile As Scripting.File
+    Dim cmpComponents As VBIDE.VBComponents
+    Dim fld As Scripting.Folder
+    Set fld = objFSO.GetFolder(Me.Path)
+    If fld.Files.Count = 0 Then Exit Sub
+
+    DeleteVBAModulesAndUserForms
+
+    Set cmpComponents = Me.VBProject.VBComponents
+    Dim mCount As Integer: mCount = 0
+    For Each objFile In fld.Files
+        If (objFSO.GetExtensionName(objFile.Name) = "cls") Or _
+            (objFSO.GetExtensionName(objFile.Name) = "frm") Or _
+            (objFSO.GetExtensionName(objFile.Name) = "bas") Then
+            cmpComponents.Import objFile.Path
+            mCount = mCount + 1
+        End If
+    Next objFile
+
+    MsgBox "Initialization complete. " + CStr(mCount) + " modules imported successfully.", vbInformation, "Dynamic modules"
+End Sub
+
+'Delete all modules and userforms from ThisWorkbook
+Private Function DeleteVBAModulesAndUserForms()
+    Dim VBProj As VBIDE.VBProject
+    Dim VBComp As VBIDE.VBComponent
+    Set VBProj = Me.VBProject
+    For Each VBComp In VBProj.VBComponents
+        If VBComp.Type = vbext_ct_Document Then
+            'Skip Thisworkbook or worksheet modules
+        Else
+            VBProj.VBComponents.Remove VBComp
+        End If
+    Next VBComp
+End Function
