@@ -3,11 +3,6 @@ kdb+ csharp wrapper for Microsoft Excel, using ExcelDna.
 Leverage Excel capabilities using kdb+ in-memory data storage and vectorial computation.
 
 
-### More infos
-* kdb+: http://code.kx.com/q/
-* ExcelDna: https://github.com/Excel-DNA/ExcelDna/
-
-
 ### Versions 
 
 #### 1.0 - 2017-05-07 - Add qExecute, qQuery and qInsert
@@ -20,3 +15,6 @@ Leverage Excel capabilities using kdb+ in-memory data storage and vectorial comp
 * **qSubscribe**: subscribe to real-time updates on a data point identified by a unique key. Supports simultaneous connections to multiple q processes and servers in the same Excel instance.
       
       
+### More infos
+* kdb+: http://code.kx.com/q/
+* ExcelDna: https://github.com/Excel-DNA/ExcelDna/
