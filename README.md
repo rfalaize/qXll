@@ -4,7 +4,6 @@ Leverage Excel capabilities using kdb+ in-memory data storage and vectorial comp
 
 More infos:
 kdb+: http://code.kx.com/q/
-
 ExcelDna: https://github.com/Excel-DNA/ExcelDna/
 
 
