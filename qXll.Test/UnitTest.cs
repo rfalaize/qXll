@@ -21,11 +21,11 @@ namespace qXll.Test
             InsertSampleTable();
             //With headers
             object[,] o;
-            o = qXLWrapper.qQuery("select from tUnitTest where i<100");
+            o = qExcelFunctions.qQuery("select from tUnitTest where i<100");
             Assert.AreEqual(o.GetLength(0), 101);
             Assert.AreEqual(o.GetLength(1), 4);
             //Without headers
-            o = qXLWrapper.qQuery("select from tUnitTest where i<100", true);
+            o = qExcelFunctions.qQuery("select from tUnitTest where i<100", true);
             Assert.AreEqual(o.GetLength(0), 100);
             Assert.AreEqual(o.GetLength(1), 4);
         }
@@ -34,10 +34,10 @@ namespace qXll.Test
         {
             object[,] o;
             //Create table and insert
-            o = qXLWrapper.qInsert(GetSampleTable(), "tUnitTest", true, 0,true);
+            o = qExcelFunctions.qInsert(GetSampleTable(), "tUnitTest", true, 0,true);
             Assert.IsTrue(o[0, 0].ToString().StartsWith("Success"));
             //Insert new lines
-            o = qXLWrapper.qInsert(GetSampleTableData(), "tUnitTest", false, 0, true);
+            o = qExcelFunctions.qInsert(GetSampleTableData(), "tUnitTest", false, 0, true);
             Assert.IsTrue(o[0, 0].ToString().StartsWith("Success"));
             //Upsert
             object[,] i = new object[2, 2];
@@ -51,13 +51,13 @@ namespace qXll.Test
         [TestMethod]
         public void Test_Error_Connection()
         {
-            object[,] o = qXLWrapper.qQuery("t", false, "123");
+            object[,] o = qExcelFunctions.qQuery("t", false, "123");
             Assert.IsTrue(o[0, 0].ToString().StartsWith("#Connection Error"));
         }
         [TestMethod]
         public void Test_Error_Query()
         {
-            object[,] o = qXLWrapper.qQuery("wrong command");
+            object[,] o = qExcelFunctions.qQuery("wrong command");
             Assert.IsTrue(o[0, 0].ToString().StartsWith("#Error Query"));
         }
 
@@ -66,7 +66,7 @@ namespace qXll.Test
         // Create a table, t, and insert 50,000 rows of random data
         private object[,] InsertSampleTable()
         {
-            return qXLWrapper.qExecute("n:1000;tUnitTest:([]sym:n?`1;time:.z.p+til n;price:n?100.;size:n?1000)", true);
+            return qExcelFunctions.qExecute("n:1000;tUnitTest:([]sym:n?`1;time:.z.p+til n;price:n?100.;size:n?1000)", true);
         }
         private object[,] GetSampleTable()
         {

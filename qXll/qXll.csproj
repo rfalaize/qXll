@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="c.cs" />
+    <Compile Include="kx\c.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="qXLWrapper.cs" />
+    <Compile Include="qExcelUtils.cs" />
+    <Compile Include="qExcelRtdServer.cs" />
+    <Compile Include="qExcelFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="qXll-AddIn.dna">

@@ -9,7 +9,7 @@ using ExcelDna.Integration;
 
 namespace qXll
 {
-    public static class qXLWrapper
+    public static class qExcelFunctions
     {
         [ExcelFunction(Description = "Execute a q command, synchronously or not.")]
         public static object[,] qExecute(
@@ -43,6 +43,7 @@ namespace qXll
             catch (Exception e) { err[0, 0] = "#Error Command: " + e.Message; return err; }
         }
 
+
         [ExcelFunction(Description = "Execute a q query and return a 2 dimensional array. Note: command must return a well formatted table or keyed table.")]
         public static object[,] qQuery(
             [ExcelArgument(Description = "q query")] string query,
@@ -74,13 +75,15 @@ namespace qXll
                 for (int i = 0; i < nRows; i++)
                 {
                     for (int j = 0; j < nCols; j++)
-                        o[i+ startRow, j] = ToCSharpType(c.at(flip.y[j], i)); // c.at extracts the cell from column,row.
+                        try { o[i + startRow, j] = qExcelUtils.ConvertToExcelType(c.at(flip.y[j], i)); } // c.at extracts the cell from column,row.
+                        catch (Exception e) { o[i + startRow, j] = e.Message;  }
                 }
                 c.Close();
                 return o;
             }
             catch (Exception e) { err[0, 0] = "#Error Query: " + e.Message; return err; }
         }
+
 
         [ExcelFunction(Description = "Insert a 2 dimensional variant in a q table. Note: command must return a well formatted table or keyed table.")]
         public static object[,] qInsert(
@@ -147,22 +150,18 @@ namespace qXll
             catch (Exception e) { err[0, 0] = "#Error: Could not insert data. q error: " + e.Message; return err; }
             return o;
         }
-        
-        //Utils
-        private static object ToCSharpType(object o)
+
+
+        [ExcelFunction(Description = "Subscribe to a data point updates from tsub table")]
+        public static object qSubscribe(
+            [ExcelArgument(Description = "Subscription key (data point indentifier)")] string key,
+            [ExcelArgument(Description = "(optional) Server address or ip. Default is \"localhost\".")] string host = "",
+            [ExcelArgument(Description = "(optional) Server port. Default is 5001")] int port = 0)
         {
-            Type t = o.GetType();
-            if (t == typeof(System.String)) return o;
-            else if (t == typeof(System.Double)) return o;
-            else if (t == typeof(System.Int16)) return o;
-            else if (t == typeof(System.Int32)) return o;
-            else if (t == typeof(System.Int64)) return o;
-            else if (t == typeof(c.Date)) { c.Date v = (c.Date)o; return v.DateTime(); }
-            else if (t == typeof(System.TimeSpan)) { System.TimeSpan v = (System.TimeSpan)o; return v.TotalDays; }
-            else if (t == typeof(c.Minute)) return o.ToString();
-            else if (t == typeof(c.Second)) return o.ToString();
-            else if (t == typeof(System.Char[])) return new string((System.Char[])o);
-            return o.ToString();
+            string[] topics = new string[3];
+            topics[0] = key; topics[1] = host; topics[2] = port.ToString();
+            return XlCall.RTD("qXll.qExcelRtdServer", null, topics);
         }
+
     }
 }
