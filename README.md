@@ -17,6 +17,6 @@ Leverage Excel capabilities using kdb+ in-memory data storage and vectorial comp
 * All  functions have a synchronous and an asynchronous version.
       
 ### 1.1 - 2017-07-02 - Add qSubscribe
-* **qSubscribe**: subscribe to real-time updates on a data point identified by a unique key.
+* **qSubscribe**: subscribe to real-time updates on a data point identified by a unique key. Supports simultaneous connections to multiple q processes and servers in the same Excel instance.
       
       
