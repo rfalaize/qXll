@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qXll.Test", "qXll.Test\qXll.Test.csproj", "{348A80CE-2A39-4959-ADC3-DE18D950CC1C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{17360BB1-6AB4-414A-BB5C-EFB91F3EBE7D}"
+	ProjectSection(SolutionItems) = preProject
+		utils\xlpub.q = utils\xlpub.q
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "addin", "addin", "{BAEE10B9-21A7-41EA-BFB1-AF7BF0FD2038}"
 	ProjectSection(SolutionItems) = preProject
