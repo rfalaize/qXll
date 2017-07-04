@@ -117,7 +117,7 @@ namespace qXll
                 try
                 {
                     //send subscription to q process
-                    this.connection.ks(".u.sub[`tsub;`" + key + "]");
+                    this.connection.ks(".u.sub[`xlsub;`" + key + "]");
                     
                     HashSet<Topic> topics;
                     if (!this.subscriptions.ContainsKey(key))

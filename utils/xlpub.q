@@ -11,7 +11,7 @@ end:{(neg union/[w[;;0]])@\:(`.u.end;x)}
 
 // create the table to be published (subscription key; value)
 // tables to be published require a sym column, which can be of any type
-tsub:([]sym:`$(); val:())
+xlsub:([]sym:`$(); val:())
 
 // initialise pubsub
 // all tables in the top level namespace (`.) become publish-able
@@ -21,11 +21,11 @@ tsub:([]sym:`$(); val:())
 
 // functions to publish data
 // .u.pub takes the table name and table data
-gettestdata:{([]sym:enlist `kkk;val:1?100f)}
-publishvalues:{.u.pub[`tsub; gettestdata[]]}
+.xl.getdata:{([]sym:enlist `key;val:1?100f)}
+.xl.publish:{.u.pub[`xlsub; .xl.getdata[]]}
 
 // create timer function to randomly publish
-.z.ts:{publishvalues[]}
+.z.ts:{.xl.publish[]}
 
 // fire timer every N ms
 \t 0

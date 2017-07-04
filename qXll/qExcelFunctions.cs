@@ -127,9 +127,22 @@ namespace qXll
             for (int j = 0; j < nCols; j++)
             {
                 object[] col = new object[nRows];
+                //Get default column type
+                Type defaultColumnType = typeof(ExcelDna.Integration.ExcelEmpty);
                 for (int i = 0; i < nRows; i++)
                 {
-                    col[i] = d[i + startRow, j];
+                    object tmp = d[i + startRow, j];
+                    if (tmp!= null)
+                    {
+                        defaultColumnType = tmp.GetType();
+                        if (defaultColumnType != typeof(ExcelDna.Integration.ExcelEmpty))
+                            break;
+                    }
+                }
+                //Cast
+                for (int i = 0; i < nRows; i++)
+                {
+                    col[i] = qExcelUtils.ConvertToqType(d[i + startRow, j], defaultColumnType);
                 }
                 x[j] = col;
             }

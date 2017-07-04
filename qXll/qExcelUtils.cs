@@ -13,7 +13,7 @@ namespace qXll
         {
             try
             {
-                if (o is null) return "";
+                if (o == null) return "";
                 Type t = o.GetType();
                 if (t == typeof(System.String)) return o;
                 else if (t == typeof(System.Double)) return o;
@@ -28,6 +28,18 @@ namespace qXll
                 return o.ToString();
             }
             catch (Exception e) { return "#Type error: " + e.Message; }
+        }
+
+        public static object ConvertToqType(object o, Type defaultType)
+        {
+            if (o == null) return "";
+            Type t = o.GetType();
+            if (t == typeof(ExcelDna.Integration.ExcelEmpty))
+            {
+                try { return c.NULL(t); }
+                catch (Exception) { return c.NULL('s'); }
+            }
+            return o;
         }
     }
 }
