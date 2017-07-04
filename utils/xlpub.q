@@ -24,6 +24,9 @@ xlsub:([]sym:`$(); val:())
 .xl.getdata:{([]sym:enlist `key;val:1?100f)}
 .xl.publish:{.u.pub[`xlsub; .xl.getdata[]]}
 
+// utils
+.xl.dt:{`datetime$x-2000.01.01-1900.01.01-2} /convert an excel date into a q datetime
+
 // create timer function to randomly publish
 .z.ts:{.xl.publish[]}
 
