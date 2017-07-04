@@ -37,7 +37,7 @@ namespace qXll
             if (t == typeof(ExcelDna.Integration.ExcelEmpty))
             {
                 try { return c.NULL(t); }
-                catch (Exception) { return c.NULL('s'); }
+                catch (Exception) { return c.NULL(typeof(string)); }
             }
             return o;
         }
