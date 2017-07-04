@@ -87,7 +87,7 @@ namespace qXll
         ///     .one qProcessManager is associated to each q process
         ///     .a qProcessManager has a workthread that handles the data stream
         ///     .subscriptions to this process are stored in a dictionary. 
-        ///         key = identifier of the data point to subscribe to (in tsub table, sym column)
+        ///         key = identifier of the data point to subscribe to (in xlsub table, sym column)
         ///         value = excel caller cell (Topic)
         /// </summary>
         public class qProcessManager
