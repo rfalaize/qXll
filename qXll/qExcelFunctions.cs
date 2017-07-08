@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using kx;
 using ExcelDna.Integration;
+using System.Runtime.InteropServices;
+using System.Net.Sockets;
 
 namespace qXll
 {
@@ -174,6 +177,94 @@ namespace qXll
             string[] topics = new string[3];
             topics[0] = key; topics[1] = host; topics[2] = port.ToString();
             return XlCall.RTD("qXll.qExcelRtdServer", null, topics);
+        }
+
+
+        //Process management
+        [ExcelFunction(Description = "Start a q process on localhost. Returns the process ID if success, else an error message.")]
+        public static object qProcessStart(
+        [ExcelArgument(Description = "(optional) visible window. Default is false (hidden).")] bool visible = false,
+        [ExcelArgument(Description = "(optional) command line parameters")] string commandlineparams = "",
+        [ExcelArgument(Description = "(optional) qhome: folder containaing q.q and q.k. Default is QHOME environment variable")] string qhome = "",
+        [ExcelArgument(Description = "(optional) qlic: folder containaing the q license file. Default is QLIC environment variable")] string qlic = ""
+        )
+        {
+            Process process = new Process();
+            if (qhome!="") Environment.SetEnvironmentVariable("QHOME", qhome);
+            if (qlic != "") Environment.SetEnvironmentVariable("QLIC", qlic);
+            process.StartInfo.FileName = qhome + "q.exe";
+            process.StartInfo.Arguments = commandlineparams;
+            //Check if port already open
+            if (commandlineparams.Contains("-p"))
+            {
+                string[] arguments = commandlineparams.Split(' ');
+                for (int i = 0; i < arguments.Length; i++)
+                {
+                    if (arguments[i] == "-p")
+                    {
+                        if (i == arguments.Length - 1) { return "#Error: missing port number"; }
+                        try
+                        {
+                            int port = Convert.ToInt32(arguments[i + 1]);
+                            if (IsPortOpen("localhost", port, 100)) return "#Error: port " + port.ToString() + " is currently busy.";
+                        }
+                        catch (Exception e) { return "#Error: port number. " + e.Message; }
+                    }
+                }
+
+            }
+            if (visible)
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            else
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            try
+            {
+                process.Start();
+                return process.Id;
+            }
+            catch (Exception e)
+            {
+                return "#Error: " + e.Message;
+            }
+        }
+
+
+        [ExcelFunction(Description = "Kill a running q process")]
+        public static object qProcessKill(
+        [ExcelArgument(Description = "process id")] int processid)
+        {
+            try
+            {
+                Process process = Process.GetProcessById(processid);
+                if (process.ProcessName == "q")
+                {
+                    process.Kill();
+                    return "Success";
+                }
+                else { return "#Error: process " + processid.ToString() + " is not a q process"; }
+            }
+            catch (Exception e)
+            {
+                return "#Error: " + e.Message;
+            }
+        }
+
+        //Utils
+        private static bool IsPortOpen(string host, int port, int timeoutms)
+        {
+            try
+            {
+                TcpClient client = new TcpClient();
+                IAsyncResult result = client.BeginConnect(host, port, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(timeoutms);
+                if (!success) { return false; }
+                client.EndConnect(result);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
     }
