@@ -67,7 +67,13 @@ namespace qXll
                 int nRows = c.n(flip.y[0]); if (nRows <= 0) { err[0, 0] = "#Empty results: 0 rows returned."; return err; }
                 int nCols = c.n(flip.x); if (nCols <= 0) { err[0, 0] = "#Empty results: 0 columns returned."; return err; }
                 int startRow = 0;
-                if (noHeaders) { o = new object[nRows, nCols]; }
+                if (noHeaders)
+                {
+                    long ubound;
+                    if (nRows == 1) ubound = 2;
+                    else ubound = nRows;
+                    o = new object[ubound, nCols];
+                }
                 else
                 {
                     o = new object[nRows + 1, nCols];
